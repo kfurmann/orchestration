@@ -8,7 +8,7 @@ apt-get install -y git
 echo "Europe/Warsaw" > /etc/timezone
 dpkg-reconfigure -f noninteractive tzdata
 # ubuntu 12.04 and previous (no add-apt-repository)
-apt-get install -y python-software-properties
+# apt-get install -y python-software-properties
 # apache
 function apache {
 apt-get install -y apache2
@@ -64,14 +64,15 @@ npm config set registry http://registry.npmjs.org/
 }
 #phpdev
 function phpdevtools {
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
+#problem
+sudo curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/bin/composer
 npm install -g bower
 npm install -g grunt-cli
 }
 #javadev
 function javadevtools {
-sudo apt-get install maven
+sudo apt-get install -y maven
 npm install -g nodeclipse
 }
 #eclipse (export PATH=.:$PATH or eclipse in PATH)
@@ -84,6 +85,7 @@ function docker {
 curl -sSL https://get.docker.com/ubuntu/ | sudo sh
 #docker run -p 5000:5000 registry
 docker run -name internal_registry -d -p 5000:5000 samalba/docker-registry
+docker run -d -p 8080:8080 -p 28015:28015 -p 29015:29015 dockerfile/rethinkdb
 docker run -name shipyard -p 8005:8005 -d shipyard/shipyard
 }
 mysql
