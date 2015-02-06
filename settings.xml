@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <profiles>
+        <profile>
+            <id>glassfish-context</id>
+                <properties>
+        <glassfish.glassfishDirectory>/opt/glassfish4</glassfish.glassfishDirectory>
+        <glassfish.user>admin</glassfish.user>
+        <glassfish.adminPassword>changeit</glassfish.adminPassword>
+        <glassfish.domain.name>domain1</glassfish.domain.name>
+        <glassfish.domain.host>localhost</glassfish.domain.host>
+        <glassfish.domain.adminPort>4848</glassfish.domain.adminPort>
+    </properties>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>glassfish-context</activeProfile>
+    </activeProfiles>
+</settings>
