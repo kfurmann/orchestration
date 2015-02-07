@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
+JAVA_VERSION=$(java -version 2>&1 | sed 's/.*version "\(.*\)\.\(.*\)\..*"/\1\2/; 1q')
 PATH=.:$PATH
 ECLIPSE_JEE=eclipse-jee-luna-SR1a-linux-gtk-x86_64.tar.gz
 ECLIPSE_PHP=eclipse-php-luna-SR1a-linux-gtk-x86_64.tar.gz
 SERVER=http://mirror.netcologne.de/eclipse/technology/epp/downloads/release/luna/SR1a/
+ln -s /vagrant/.bash_profile /home/vagrant/.bash_profile
 #add repos
 add-apt-repository -y ppa:webupd8team/java
 curl -sL https://deb.nodesource.com/setup | sudo bash -
@@ -25,9 +27,9 @@ a2enmod rewrite
 #mysql
 
 function mysql {
-echo "mysql-server-5.5 mysql-server/root_password password nA8Wedeg" | sudo debconf-set-selections
-echo "mysql-server-5.5 mysql-server/root_password_again password nA8Wedeg" | sudo debconf-set-selections 
-apt-get install -y mysql-server-5.5
+echo "mysql-server-5.6 mysql-server/root_password password nA8Wedeg" | sudo debconf-set-selections
+echo "mysql-server-5.6 mysql-server/root_password_again password nA8Wedeg" | sudo debconf-set-selections 
+apt-get install -y mysql-server-5.6
 }
 #samba
 function samba {
@@ -77,7 +79,7 @@ npm install -g grunt-cli
 #javadev
 function javadevtools {
 sudo apt-get install -y maven
-cp /vagrant/settings.xml ~/.m2/
+ln -s /vagrant/settings.xml /home/vagrant/.m2/settings.xml
 npm install -g nodeclipse
 }
 #eclipse (export PATH=.:$PATH or eclipse in PATH)
@@ -104,16 +106,20 @@ docker run -name shipyard -p 8005:8005 -d shipyard/shipyard
 }
 #glassfish
 function glassfish {
+echo "glassfish download...."
 cd /opt
 wget -q http://dlc.sun.com.edgesuite.net/glassfish/4.1/release/glassfish-4.1.zip
+echo "glassfish unzip..."
 unzip -q glassfish-4.1.zip
 echo "admin;{SSHA256}80e0NeB6XBWXsIPa7pT54D9JZ5DR5hGQV1kN1OAsgJePNXY6Pl0EIw==;asadmin" > /opt/glassfish4/glassfish/domains/domain1/config/admin-keyfile
 cd /opt/glassfish4/bin
+echo "glassfish start"
 echo "AS_ADMIN_PASSWORD=glassfish" > pwdfile
 ./asadmin start-domain
 ./asadmin --user admin --passwordfile pwdfile enable-secure-admin
 ./asadmin restart-domain
 ./asadmin start-database 
+echo "glassfish started"
 }
 mysql
 samba
