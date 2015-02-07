@@ -4,7 +4,7 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
     <profiles>
         <profile>
-            <id>glassfish-context</id>
+            <id>hospital-context</id>
                 <properties>
         <glassfish.glassfishDirectory>/opt/glassfish4</glassfish.glassfishDirectory>
         <glassfish.user>admin</glassfish.user>
@@ -17,6 +17,6 @@
     </profiles>
 
     <activeProfiles>
-        <activeProfile>glassfish-context</activeProfile>
+        <activeProfile>hospital-context</activeProfile>
     </activeProfiles>
 </settings>

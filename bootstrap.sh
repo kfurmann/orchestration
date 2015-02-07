@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
+ln -s /vagrant/.bash_profile /home/vagrant/.bash_profile
 JAVA_VERSION=$(java -version 2>&1 | sed 's/.*version "\(.*\)\.\(.*\)\..*"/\1\2/; 1q')
 PATH=.:$PATH
+ECLIPSE_JEE_DIR=/vagrant/eclipsejee
 ECLIPSE_JEE=eclipse-jee-luna-SR1a-linux-gtk-x86_64.tar.gz
 ECLIPSE_PHP=eclipse-php-luna-SR1a-linux-gtk-x86_64.tar.gz
 SERVER=http://mirror.netcologne.de/eclipse/technology/epp/downloads/release/luna/SR1a/
-ln -s /vagrant/.bash_profile /home/vagrant/.bash_profile
 #add repos
 add-apt-repository -y ppa:webupd8team/java
 curl -sL https://deb.nodesource.com/setup | sudo bash -
@@ -85,8 +86,7 @@ npm install -g nodeclipse
 #eclipse (export PATH=.:$PATH or eclipse in PATH)
 function eclipsejee {
 cd /vagrant
-ECLIPSE_JEE_DIR=/vagrant/eclipsejee
-if [ ! -f $ECLIPSE_JEE_DIR ]; then 
+if [ ! -d $ECLIPSE_JEE_DIR ]; then 
   wget -q "$SERVER/$ECLIPSE_JEE"; 
   tar -zxf "/vagrant/$ECLIPSE_JEE"
   mv eclipse $ECLIPSE_JEE_DIR
@@ -111,14 +111,17 @@ cd /opt
 wget -q http://dlc.sun.com.edgesuite.net/glassfish/4.1/release/glassfish-4.1.zip
 echo "glassfish unzip..."
 unzip -q glassfish-4.1.zip
-echo "admin;{SSHA256}80e0NeB6XBWXsIPa7pT54D9JZ5DR5hGQV1kN1OAsgJePNXY6Pl0EIw==;asadmin" > /opt/glassfish4/glassfish/domains/domain1/config/admin-keyfile
 cd /opt/glassfish4/bin
 echo "glassfish start"
 echo "AS_ADMIN_PASSWORD=glassfish" > pwdfile
+./asadmin delete-domain domain1
+./asadmin delete-jdbc-connection-pool --cascade=true DerbyPool
+./asadmin create-domain hospital
+echo "admin;{SSHA256}80e0NeB6XBWXsIPa7pT54D9JZ5DR5hGQV1kN1OAsgJePNXY6Pl0EIw==;asadmin" > /opt/glassfish4/glassfish/domains/hospital/config/admin-keyfile
 ./asadmin start-domain
 ./asadmin --user admin --passwordfile pwdfile enable-secure-admin
 ./asadmin restart-domain
-./asadmin start-database 
+#./asadmin start-database 
 echo "glassfish started"
 }
 mysql

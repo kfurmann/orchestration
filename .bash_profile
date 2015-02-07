@@ -1,3 +1,4 @@
+echo "=======================================";
 echo "loading bash profile";
 export GLASSFISH_PASSWORD=glassfish
 export DATABASE_NAME=hospital
