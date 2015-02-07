@@ -83,13 +83,15 @@ npm install -g nodeclipse
 #eclipse (export PATH=.:$PATH or eclipse in PATH)
 function eclipsejee {
 cd /vagrant
-if [ ! -f $ECLIPSE_JEE ]; then 
+ECLIPSE_JEE_DIR=/vagrant/eclipsejee
+if [ ! -f $ECLIPSE_JEE_DIR ]; then 
   wget -q "$SERVER/$ECLIPSE_JEE"; 
+  tar -zxf "/vagrant/$ECLIPSE_JEE"
+  mv eclipse $ECLIPSE_JEE_DIR
+  rm -rf $ECLIPSE_JEE
 fi
-tar -zxf "/vagrant/$ECLIPSE_JEE"
-mv /vagrant/eclipse /vagrant/eclipsejee
 echo "eclipse plugins"
-cd /vagrant/eclipsejee
+cd $ECLIPSE_JEE_DIR
 nodeclipse install testng from luna
 }
 # docker
