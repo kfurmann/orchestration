@@ -70,8 +70,7 @@ npm config set registry http://registry.npmjs.org/
 #phpdev
 function phpdevtools {
 #problem
-curl -sS https://getcomposer.org/installer | php
-#sudo mv composer.phar /usr/bin/composer
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 npm install -g bower
 npm install -g grunt-cli
 }
@@ -101,6 +100,19 @@ docker run -name internal_registry -d -p 5000:5000 samalba/docker-registry
 docker run -d -p 8080:8080 -p 28015:28015 -p 29015:29015 dockerfile/rethinkdb
 docker run -name shipyard -p 8005:8005 -d shipyard/shipyard
 }
+#glassfish
+function glassfish {
+cd /opt
+wget -q http://dlc.sun.com.edgesuite.net/glassfish/4.1/release/glassfish-4.1.zip
+unzip -q glassfish-4.1.zip
+echo "admin;{SSHA256}80e0NeB6XBWXsIPa7pT54D9JZ5DR5hGQV1kN1OAsgJePNXY6Pl0EIw==;asadmin" > /opt/glassfish4/glassfish/domains/domain1/config/admin-keyfile
+cd /opt/glassfish4/bin
+echo "AS_ADMIN_PASSWORD=glassfish" > pwdfile
+./asadmin start-domain
+./asadmin --user admin --passwordfile pwdfile enable-secure-admin
+./asadmin restart-domain
+./asadmin start-database 
+}
 mysql
 samba
 cifs
@@ -113,3 +125,4 @@ javadevtools
 eclipsejee
 #docker
 vagrant
+glassfish
