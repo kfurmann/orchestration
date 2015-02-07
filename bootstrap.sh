@@ -87,9 +87,10 @@ cd /vagrant
 if [ ! -f $ECLIPSE_JEE ]; then 
   wget -q "$SERVER/$ECLIPSE_JEE"; 
 fi
-tar -zxf "/vagrant/$ECLIPSE_JEE" -C /vagrant/eclipsejee
+tar -zxf "/vagrant/$ECLIPSE_JEE"
+mv /vagrant/eclipse /vagrant/eclipsejee
 echo "eclipse plugins"
-cd /vagrant/eclipsejee/eclipse
+cd /vagrant/eclipsejee
 nodeclipse install testng from luna
 }
 # docker
