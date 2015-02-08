@@ -16,6 +16,14 @@
         </profile>
     </profiles>
 
+<servers>
+<server>
+<id>serwer</id>
+<username>admin</username>
+<password>mUzumaP2</password>
+</server>
+</servers>
+
     <activeProfiles>
         <activeProfile>hospital-context</activeProfile>
     </activeProfiles>

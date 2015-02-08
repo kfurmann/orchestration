@@ -130,10 +130,10 @@ cifs
 apache
 php
 java8
-nodejs
-phpdevtools
-javadevtools
-eclipsejee
+#nodejs
+#phpdevtools
+#javadevtools
+#eclipsejee
 #docker
-vagrant
-glassfish
+#vagrant
+#glassfish
