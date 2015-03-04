@@ -20,7 +20,7 @@
 <server>
 <id>serwer</id>
 <username>admin</username>
-<password>mUzumaP2</password>
+<password>${env.TOMCATADMINPASSWORD}</password>
 </server>
 </servers>
 
