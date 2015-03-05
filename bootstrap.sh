@@ -28,8 +28,8 @@ a2enmod rewrite
 #mysql
 
 function mysql {
-echo "mysql-server-5.6 mysql-server/root_password password nA8Wedeg" | sudo debconf-set-selections
-echo "mysql-server-5.6 mysql-server/root_password_again password nA8Wedeg" | sudo debconf-set-selections 
+echo "mysql-server-5.6 mysql-server/root_password password $DB_PASSWORD" | sudo debconf-set-selections
+echo "mysql-server-5.6 mysql-server/root_password_again password $DB_PASSWORD" | sudo debconf-set-selections 
 apt-get install -y mysql-server-5.6
 }
 #samba
@@ -44,9 +44,9 @@ apt-get install -y cifs-utils
 function php {
 apt-get install -y php5 php5-curl php5-xdebug 
 echo 'phpmyadmin phpmyadmin/dbconfig-install boolean true' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/app-password-confirm password nA8Wedeg' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/mysql/admin-pass password nA8Wedeg' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/mysql/app-pass password nA8Wedeg' | debconf-set-selections
+echo 'phpmyadmin phpmyadmin/app-password-confirm password $DB_PASSWORD' | debconf-set-selections
+echo 'phpmyadmin phpmyadmin/mysql/admin-pass password $DB_PASSWORD' | debconf-set-selections
+echo 'phpmyadmin phpmyadmin/mysql/app-pass password $DB_PASSWORD' | debconf-set-selections
 echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections
 apt-get install -y phpmyadmin
 }
