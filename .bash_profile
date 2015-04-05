@@ -1,8 +1,8 @@
 echo "=======================================";
 echo "loading bash profile";
 export GLASSFISH_PASSWORD=glassfish
-export DATABASE_NAME=hospital
-export DB_USER=hospitaluser
+export DATABASE_NAME=wordpress
+export DB_USER=root
 export DB_PASSWORD=
 export TOMCATADMINPASSWORD=
 echo "=======================================";
