@@ -28,9 +28,9 @@ a2enmod rewrite
 #mysql
 
 function mysql {
-echo "mysql-server-5.6 mysql-server/root_password password $DB_PASSWORD" | sudo debconf-set-selections
-echo "mysql-server-5.6 mysql-server/root_password_again password $DB_PASSWORD" | sudo debconf-set-selections 
-apt-get install -y mysql-server-5.6
+echo "mysql-server-5.5 mysql-server/root_password password $DB_PASSWORD" | sudo debconf-set-selections
+echo "mysql-server-5.5 mysql-server/root_password_again password $DB_PASSWORD" | sudo debconf-set-selections 
+apt-get install -y mysql-server-5.5
 }
 #samba
 function samba {
@@ -124,12 +124,12 @@ echo "admin;{SSHA256}80e0NeB6XBWXsIPa7pT54D9JZ5DR5hGQV1kN1OAsgJePNXY6Pl0EIw==;as
 #./asadmin start-database 
 echo "glassfish started"
 }
-mysql
-samba
-cifs
-apache
-php
-java8
+#mysql
+#samba
+#cifs
+#apache
+#php
+#java8
 #nodejs
 #phpdevtools
 #javadevtools
