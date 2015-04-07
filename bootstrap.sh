@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "mysql-server mysql-server/root_password password $DB_PASSWORD" | sudo debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password $DB_PASSWORD" | sudo debconf-set-selections 
-sudo apt-get install -y apache2 php5 libapache2-mod-php5 mysql-server php5-mysql php5-curl phpunit subversion nodejs
+sudo apt-get install -y apache2 php5 libapache2-mod-php5 mysql-server php5-mysql php5-curl phpunit subversion nodejs git
 sudo service apache2 restart
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 cd /var/www/
