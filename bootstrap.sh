@@ -1,139 +1,19 @@
-#!/usr/bin/env bash
-ln -s /vagrant/.bash_profile /home/vagrant/.bash_profile
-JAVA_VERSION=$(java -version 2>&1 | sed 's/.*version "\(.*\)\.\(.*\)\..*"/\1\2/; 1q')
-PATH=.:$PATH
-ECLIPSE_JEE_DIR=/vagrant/eclipsejee
-ECLIPSE_JEE=eclipse-jee-luna-SR1a-linux-gtk-x86_64.tar.gz
-ECLIPSE_PHP=eclipse-php-luna-SR1a-linux-gtk-x86_64.tar.gz
-SERVER=http://mirror.netcologne.de/eclipse/technology/epp/downloads/release/luna/SR1a/
-#add repos
-add-apt-repository -y ppa:webupd8team/java
-curl -sL https://deb.nodesource.com/setup | sudo bash -
-#update
-apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
-#deb packages
-apt-get install -y vim
-apt-get install -y curl
-apt-get install -y git
-echo "Europe/Warsaw" > /etc/timezone
-dpkg-reconfigure -f noninteractive tzdata
-# ubuntu 12.04 and previous (no add-apt-repository)
-# apt-get install -y python-software-properties
-# apache
-function apache {
-apt-get install -y apache2
-a2enmod rewrite
-}
-#mysql
-
-function mysql {
-echo "mysql-server-5.5 mysql-server/root_password password $DB_PASSWORD" | sudo debconf-set-selections
-echo "mysql-server-5.5 mysql-server/root_password_again password $DB_PASSWORD" | sudo debconf-set-selections 
-apt-get install -y mysql-server-5.5
-}
-#samba
-function samba {
-apt-get install -y samba
-}
-#cifs
-function cifs {
-apt-get install -y cifs-utils
-}
-#php
-function php {
-apt-get install -y php5 php5-curl php5-xdebug 
-echo 'phpmyadmin phpmyadmin/dbconfig-install boolean true' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/app-password-confirm password $DB_PASSWORD' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/mysql/admin-pass password $DB_PASSWORD' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/mysql/app-pass password $DB_PASSWORD' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections
-apt-get install -y phpmyadmin
-}
-#java8
-function java8 {
-echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-apt-get install -y oracle-java8-installer
-apt-get install -y oracle-java8-set-default
-}
-#vagrant specific
-function vagrant {
-if ! [ -L /var/www ]; then
-  rm -rf /var/www
-  ln -fs /vagrant /var/www
-fi
-}
-#nodejs (required by phpdev & javadev)
-function nodejs {
-#apt-get purge nodejs npm
-apt-get install -y nodejs
-apt-get install -y npm
-npm config set registry http://registry.npmjs.org/
-}
-#phpdev
-function phpdevtools {
-#problem
+#!/bin/bash
+echo "mysql-server mysql-server/root_password password $DB_PASSWORD" | sudo debconf-set-selections
+echo "mysql-server mysql-server/root_password_again password $DB_PASSWORD" | sudo debconf-set-selections 
+sudo apt-get install -y apache2 php5 libapache2-mod-php5 mysql-server php5-mysql php5-curl phpunit subversion nodejs
+sudo service apache2 restart
 curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
-npm install -g bower
-npm install -g grunt-cli
-}
-#javadev
-function javadevtools {
-sudo apt-get install -y maven
-ln -s /vagrant/settings.xml /home/vagrant/.m2/settings.xml
-npm install -g nodeclipse
-}
-#eclipse (export PATH=.:$PATH or eclipse in PATH)
-function eclipsejee {
-cd /vagrant
-if [ ! -d $ECLIPSE_JEE_DIR ]; then 
-  wget -q "$SERVER/$ECLIPSE_JEE"; 
-  tar -zxf "/vagrant/$ECLIPSE_JEE"
-  mv eclipse $ECLIPSE_JEE_DIR
-  rm -rf $ECLIPSE_JEE
-fi
-echo "eclipse plugins"
-cd $ECLIPSE_JEE_DIR
-nodeclipse install testng from luna
-}
-# docker
-function docker {
-curl -sSL https://get.docker.com/ubuntu/ | sudo sh
-#docker run -p 5000:5000 registry
-docker run -name internal_registry -d -p 5000:5000 samalba/docker-registry
-docker run -d -p 8080:8080 -p 28015:28015 -p 29015:29015 dockerfile/rethinkdb
-docker run -name shipyard -p 8005:8005 -d shipyard/shipyard
-}
-#glassfish
-function glassfish {
-echo "glassfish download...."
-cd /opt
-wget -q http://dlc.sun.com.edgesuite.net/glassfish/4.1/release/glassfish-4.1.zip
-echo "glassfish unzip..."
-unzip -q glassfish-4.1.zip
-cd /opt/glassfish4/bin
-echo "glassfish start"
-echo "AS_ADMIN_PASSWORD=glassfish" > pwdfile
-./asadmin delete-domain domain1
-./asadmin delete-jdbc-connection-pool --cascade=true DerbyPool
-./asadmin create-domain hospital
-echo "admin;{SSHA256}80e0NeB6XBWXsIPa7pT54D9JZ5DR5hGQV1kN1OAsgJePNXY6Pl0EIw==;asadmin" > /opt/glassfish4/glassfish/domains/hospital/config/admin-keyfile
-./asadmin start-domain
-./asadmin --user admin --passwordfile pwdfile enable-secure-admin
-./asadmin restart-domain
-#./asadmin start-database 
-echo "glassfish started"
-}
-#mysql
-#samba
-#cifs
-#apache
-#php
-#java8
-#nodejs
-#phpdevtools
-#javadevtools
-#eclipsejee
-#docker
-#vagrant
-#glassfish
+cd /var/www/
+sudo git clone https://github.com/amarcinkowski/hospitalpage
+mv hospitalpage/* .
+mv hospitalpage/.* .
+composer up -vvv
+cp resources/.env .
+./install-dependencies.sh 
+./install-wp-cli.sh 
+./install-wp-tests.sh wordpress root '' 127.0.0.1 latest
+wp core install --url=127.0.0.1 --title=x --admin_user=root --admin_email=x@x.w --admin_password=x
+wp blog create --url=127.0.0.1
+wp core multisite-convert
+phpunit -c phpunit-wpdb.xml 
