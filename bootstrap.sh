@@ -6,7 +6,8 @@ sudo -u vagrant git clone https://github.com/amarcinkowski/hospitalpage $APP_DIR
 sudo $APP_DIR/install-server.sh 
 sudo $APP_DIR/install-wp-cli.sh
 # su instead of sudo to get HOME dir changed to vagrant user 
-su - vagrant -c "$APP_DIR/install-dependencies.sh $1"
-sudo -u vagrant $APP_DIR/install-wp-all.sh 
-sudo -u vagrant $APP_DIR/install-db.sh
+echo "XXXX $1" 
+su - vagrant -c "/var/www/install-dependencies.sh $1"
+su - vagrant -c "$APP_DIR/install-wp-all.sh"
+su - vagrant -c "$APP_DIR/install-db.sh"
 #phpunit -c phpunit-wpdb.xml 
