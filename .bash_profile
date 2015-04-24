@@ -5,6 +5,7 @@ export DB_NAME=wordpress
 export DB_USER=root
 export DB_PASSWORD=pass
 export TOMCATADMINPASSWORD=
+export GITHUB_OAUTH_TOKEN=
 echo "=======================================";
 export CATALINA_HOME=/opt/tomcat
 export CATALINA_OPTS="-Xms=512M -Xmx=1024M"
@@ -22,12 +23,3 @@ export DB_URL="jdbc:mysql://localhost:3306/$DB_NAME?useUnicode=yes&amp;character
 #SECURE_AUTH_SALT=dxH(y#M-3*O>BS>U|QA+L9ils<}r+yAH?zt~Pa/R+JvSA:*+{~}.l8S`eC;mDZe*
 #LOGGED_IN_SALT=sm-OlB!q:7ZP 5f<pVhuw9uIg )jcT|zQjxIH_8R3kTlAx]F)6a})c)xb!P+JaA|
 #NONCE_SALT=xL+-cNA+h/,mfRp+KP_k-9,j~n8oP&<]BWzl+D4jD)-8#+-Ei;tOT0&>R%NdA 1X
-export ORCHESTRATION=https://github.com/siataman/orchestration.git
-export HOSPITAL=https://github.com/siataman/hospital.git
-export HOSPITALPLUGIN=https://github.com/siataman/hospitalplugin.git
-export HOSPITALPAGE=https://github.com/siataman/hospitalpage.git
-export HOSPITALTHEME=https://github.com/siataman/hospitaltheme.git
-export EPIDEMIO=https://github.com/siataman/epidemio.git
-export PUNCTION=https://github.com/siataman/punction.git
-export WARDBOOK=https://siataman@wsz.git.cloudforge.com/wardbook.git
-export ORGANISO=https://siataman@wsz.git.cloudforge.com/organiso.git

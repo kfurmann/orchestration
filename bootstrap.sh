@@ -6,7 +6,8 @@ cd $DIR
 sudo -u vagrant git clone https://github.com/amarcinkowski/hospitalpage .
 ./install-server.sh 
 ./install-wp-cli.sh 
-sudo -u vagrant ./install-dependencies.sh f9939b8e7846a5bcfbfaea82bc3485ab5531e45d
+echo "installing deps with $1"
+sudo -u vagrant ./install-dependencies.sh $1
 sudo -u vagrant ./install-wp-all.sh 
 sudo ./install-db.sh
 #phpunit -c phpunit-wpdb.xml 
