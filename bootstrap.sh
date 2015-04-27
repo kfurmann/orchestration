@@ -1,17 +1,18 @@
 #!/bin/bash
 # su instead of sudo to get HOME dir changed to vagrant user 
 
-#vagrant prepare
 export APP_DIR=/var/www
 export REPO_DIR=/home/vagrant/repo
+github_projects=(hospitalpage hospitalplugin hospitaltheme punction epidemio)
+
+
+#vagrant prepare
 sudo rm -rf $APP_DIR $REPO_DIR/*
-sudo apt-get update
 sudo apt-get -y install git
-github_projects=(hospitalpage punction epidemio)
 for i in "${github_projects[@]}"
 do
-	echo "PROJECT $i"
-	sudo -u vagrant git clone https://github.com/amarcinkowski/$i $REPO_DIR/$i
+  echo "PROJECT $i"
+  sudo -u vagrant git clone https://github.com/amarcinkowski/$i $REPO_DIR/$i
 done
 sudo rm -rf $APP_DIR
 sudo ln -s $REPO_DIR/hospitalpage $APP_DIR
@@ -26,4 +27,5 @@ su - vagrant -c "$APP_DIR/install-wp-all.sh"
 su - vagrant -c "$APP_DIR/install-db.sh"
 
 #run tests
-#phpunit -c phpunit-wpdb.xml 
+su - vagrant -c "$APP_DIR/install-wp-tests.sh"
+phpunit -c phpunit-wpdb.xml 
