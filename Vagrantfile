@@ -7,5 +7,5 @@ Vagrant.configure("2") do |config|
     v.memory = 2048
     v.cpus = 2
   end
-  config.vm.synced_folder "www", "/var/www"
+  config.vm.synced_folder "repo", "/home/vagrant/repo"
 end
