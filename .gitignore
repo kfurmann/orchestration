@@ -1,2 +1,3 @@
-/www/
-/auth.json
+# everything except .gitkeep
+/repo/*
+~/.gitkeep

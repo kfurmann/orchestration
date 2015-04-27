@@ -4,8 +4,15 @@
 #vagrant prepare
 export APP_DIR=/var/www
 export REPO_DIR=/home/vagrant/repo
+sudo rm -rf $APP_DIR $REPO_DIR/*
+sudo apt-get update
 sudo apt-get -y install git
-sudo -u vagrant git clone https://github.com/amarcinkowski/hospitalpage $REPO_DIR/hospitalpage
+github_projects=(hospitalpage punction epidemio)
+for i in "${github_projects[@]}"
+do
+	echo "PROJECT $i"
+	sudo -u vagrant git clone https://github.com/amarcinkowski/$i $REPO_DIR/$i
+done
 sudo rm -rf $APP_DIR
 sudo ln -s $REPO_DIR/hospitalpage $APP_DIR
 
