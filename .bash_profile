@@ -1,25 +1,28 @@
 echo "=======================================";
 echo "loading bash profile";
-export GLASSFISH_PASSWORD=glassfish
+# wp wp-cli
 export DB_NAME=wordpress
 export DB_USER=root
 export DB_PASSWORD=pass
-export TOMCATADMINPASSWORD=
+export DB_URL="jdbc:mysql://localhost:3306/$DB_NAME?useUnicode=yes&amp;characterEncoding=UTF-8"
+# composer
 export GITHUB_OAUTH_TOKEN=
-echo "=======================================";
+# tomcat
+export TOMCATADMINPASSWORD=
 export CATALINA_HOME=/opt/tomcat
 export CATALINA_OPTS="-Xms=512M -Xmx=1024M"
+# wp
+export AUTH_KEY=
+export SECURE_AUTH_KEY=
+export LOGGED_IN_KEY=
+export NONCE_KEY=
+export AUTH_SALT=
+export SECURE_AUTH_SALT=
+export LOGGED_IN_SALT=
+export NONCE_SALT=
+# alias
+alias release='mvn -B release:clean release:prepare release:perform'
 alias serwer='ssh serwer@192.168.0.54 -p 1922'
 alias serwersftp='sftp -P 1922 serwer@192.168.0.54'
 alias testserwer='ssh serwer@192.168.1.113'
-alias release='mvn -B release:clean release:prepare release:perform'
-
-export DB_URL="jdbc:mysql://localhost:3306/$DB_NAME?useUnicode=yes&amp;characterEncoding=UTF-8"
-#AUTH_KEY=<?>m<J61O@B*u;#X&{!u%e>Mi-rr{$sN7bdyg|=^MmT$7Z`}^,k16;|+g(S:Vm)-
-#SECURE_AUTH_KEY=k!x7+u6CH67eB`510o*+*2OBFC{~&QH#A.3/&kZx=lw|f=<A]GWx&|#@Q*>]6T^.
-#LOGGED_IN_KEY=A=S|*m:P+Z9?#S2]Jv8P;]QHY&z[n!KdQi]iNV8#5vv  TZf94-z{zL:|o@E5N-|
-#NONCE_KEY=1%;rux<%TvRh,~VMpNvQ&hV!rD|MRqBel~}z|Px?_),H,kKVz3xJ];!hD7>UVhW)
-#AUTH_SALT=Zz{H|kaY^V?@{KOrS{gjd,-!e`sN$n&bh]-Mi^S`|5U|_Jk(9QOH11&y9ykGuezD
-#SECURE_AUTH_SALT=dxH(y#M-3*O>BS>U|QA+L9ils<}r+yAH?zt~Pa/R+JvSA:*+{~}.l8S`eC;mDZe*
-#LOGGED_IN_SALT=sm-OlB!q:7ZP 5f<pVhuw9uIg )jcT|zQjxIH_8R3kTlAx]F)6a})c)xb!P+JaA|
-#NONCE_SALT=xL+-cNA+h/,mfRp+KP_k-9,j~n8oP&<]BWzl+D4jD)-8#+-Ei;tOT0&>R%NdA 1X
+echo "=======================================";
