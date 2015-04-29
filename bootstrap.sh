@@ -37,6 +37,7 @@ function run_tests {
 # ----------------------
 clone_repos
 source $APP_DIR/resources/.env.bash
+sudo apt-get update
 sudo $APP_DIR/install-server.sh
 wp_prepare $GITHUB_TOKEN
 run_tests
