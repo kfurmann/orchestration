@@ -7,9 +7,14 @@ Vagrant.configure("2") do |config|
     config.cache.enable :apt
     config.cache.enable :composer
   end
-  config.vm.provision :shell, :path => "bootstrap.sh", :args => ENV["GITHUB_OAUTH_TOKEN"], privileged: false
-  config.vm.network :forwarded_port, host: 8000, guest: 80
-  config.vm.network :forwarded_port, host: 8080, guest: 8080
+  config.vm.define "php", primary: true do |php|
+    php.vm.provision :shell, :path => "bootstrap_php.sh", :args => ENV["GITHUB_OAUTH_TOKEN"], privileged: false
+    php.vm.network :forwarded_port, host: 8000, guest: 80
+  end
+  config.vm.define "java", autostart: false do |java|
+    java.vm.provision :shell, :path => "bootstrap_java.sh", :args => ENV["GITHUB_OAUTH_TOKEN"], privileged: false
+    java.vm.network :forwarded_port, host: 8080, guest: 8080
+  end
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
     v.cpus = 2
