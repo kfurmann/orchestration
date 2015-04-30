@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
-ln -s /vagrant/.bash_profile /home/vagrant/.bash_profile
-JAVA_VERSION=$(java -version 2>&1 | sed 's/.*version "\(.*\)\.\(.*\)\..*"/\1\2/; 1q')
 PATH=.:$PATH
 
-#add repos
-add-apt-repository -y ppa:webupd8team/java
-#curl -sL https://deb.nodesource.com/setup | sudo bash -
-#update
-#apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
+sudo echo "Europe/Warsaw" > /etc/timezone
+sudo dpkg-reconfigure -f noninteractive tzdata
 
-#deb packages
-apt-get install -y vim curl git
+function java8 {
+  sudo add-apt-repository -y ppa:webupd8team/java
+  sudo apt-get update
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+  sudo apt-get install -y oracle-java8-installer
+  sudo apt-get install -y oracle-java8-set-default
+}
 
-echo "Europe/Warsaw" > /etc/timezone
-dpkg-reconfigure -f noninteractive tzdata
+
+#add repos
+sudo apt-get install -y vim curl git
+java8
 
 
-
-
-
+#curl -sL https://deb.nodesource.com/setup | sudo bash -
 
 function apache {
 apt-get install -y apache2
@@ -51,12 +51,6 @@ echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf
 apt-get install -y phpmyadmin
 }
 #java8
-function java8 {
-echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-apt-get install -y oracle-java8-installer
-apt-get install -y oracle-java8-set-default
-}
-#vagrant specific
 function vagrant {
 if ! [ -L /var/www ]; then
   rm -rf /var/www
