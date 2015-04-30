@@ -2,6 +2,7 @@
 
 export APP_DIR=/var/www
 export REPO_DIR=/home/vagrant/repo
+export SCRIPTS_DIR=$APP_DIR/scripts
 github_projects=(hospitalpage hospitalplugin hospitaltheme punction epidemio)
 GITHUB_TOKEN=$1
 
@@ -20,15 +21,15 @@ function clone_repos {
 
 #wp prepare
 function wp_prepare {
-  $APP_DIR/install-wp-cli.sh
-  $APP_DIR/install-dependencies.sh $1
-  $APP_DIR/install-wp-all.sh
-  $APP_DIR/install-db.sh
+  $SCRIPTS_DIR/install-wp-cli.sh
+  $SCRIPTS_DIR/install-dependencies.sh $1
+  $SCRIPTS_DIR/install-wp-all.sh
+  $SCRIPTS_DIR/install-db.sh
 }
 
 #run tests
 function run_tests {
-  $APP_DIR/install-wp-tests.sh
+  $SCRIPTS_DIR/install-wp-tests.sh
   cd $APP_DIR
   phpunit -c phpunit-wpdb.xml
 }
@@ -53,7 +54,7 @@ function link_projects {
 clone_repos
 source $APP_DIR/resources/.env.bash
 sudo apt-get update
-sudo $APP_DIR/install-server.sh
+sudo $SCRIPTS_DIR/install-server.sh
 wp_prepare $GITHUB_TOKEN
 link_projects
 run_tests
