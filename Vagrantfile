@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "php", primary: true do |php|
     php.vm.provision :shell, :path => "bootstrap_php.sh", :args => ENV["GITHUB_OAUTH_TOKEN"], privileged: false
     php.vm.network :forwarded_port, host: 8000, guest: 80
+    php.vm.network :forwarded_port, host: 3306, guest: 3306
   end
   config.vm.define "java", autostart: false do |java|
     java.vm.provision :shell, :path => "bootstrap_java.sh", :args => ENV["GITHUB_OAUTH_TOKEN"], privileged: false

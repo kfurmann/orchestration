@@ -13,25 +13,20 @@ function java8 {
   sudo apt-get install -y oracle-java8-set-default
 }
 
+function tomcat8 {
+  wget http://mirrors.ibiblio.org/apache/tomcat/tomcat-8/v8.0.21/bin/apache-tomcat-8.0.21.tar.gz
+  tar xvzf apache-tomcat-8.0.21.tar.gz
+  sudo mv apache-tomcat-8.0.21 /opt/tomcat
+}
 
 #add repos
 sudo apt-get install -y vim curl git
 java8
+tomcat8
 
 
 #curl -sL https://deb.nodesource.com/setup | sudo bash -
 
-function apache {
-apt-get install -y apache2
-a2enmod rewrite
-}
-#mysql
-
-function mysql {
-echo "mysql-server-5.5 mysql-server/root_password password $DB_PASSWORD" | sudo debconf-set-selections
-echo "mysql-server-5.5 mysql-server/root_password_again password $DB_PASSWORD" | sudo debconf-set-selections 
-apt-get install -y mysql-server-5.5
-}
 #samba
 function samba {
 apt-get install -y samba
@@ -39,16 +34,6 @@ apt-get install -y samba
 #cifs
 function cifs {
 apt-get install -y cifs-utils
-}
-#php
-function php {
-apt-get install -y php5 php5-curl php5-xdebug 
-echo 'phpmyadmin phpmyadmin/dbconfig-install boolean true' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/app-password-confirm password $DB_PASSWORD' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/mysql/admin-pass password $DB_PASSWORD' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/mysql/app-pass password $DB_PASSWORD' | debconf-set-selections
-echo 'phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2' | debconf-set-selections
-apt-get install -y phpmyadmin
 }
 #java8
 function vagrant {
