@@ -6,19 +6,9 @@ export SCRIPTS_DIR=$APP_DIR/scripts
 github_projects=(hospitalpage hospitalplugin hospitaltheme punction epidemio)
 GITHUB_TOKEN=$1
 
-#vagrant prepare
-function clone_repos {
-  sudo rm -rf $APP_DIR $REPO_DIR/*
-  sudo apt-get -y install git
-  for i in "${github_projects[@]}"
-  do
-    echo "PROJECT $i"
-    git clone https://github.com/amarcinkowski/$i $REPO_DIR/$i
-  done
-  sudo rm -rf $APP_DIR
-  sudo ln -s $REPO_DIR/hospitalpage $APP_DIR
-}
+source /vagrant/functions.sh
 
+#vagrant prepare
 #wp prepare
 function wp_prepare {
   $SCRIPTS_DIR/install-wp-cli.sh
@@ -34,11 +24,6 @@ function run_tests {
   phpunit -c phpunit-wpdb.xml
 }
 
-function replace_lib_with_git {
-  rm -rf $1
-  ln -s ~/repo/$2 $1
-}
-
 function link_projects {
   HP=/var/www/vendor/amarcinkowski/hospitalplugin
   HT=/var/www/wp-content/themes/responsive-child
@@ -51,10 +36,10 @@ function link_projects {
 }
 
 # ----------------------
-clone_repos
+clone_repos ${github_projects[@]}
 source $APP_DIR/resources/.env.bash
 sudo apt-get update
 sudo $SCRIPTS_DIR/install-server.sh
 wp_prepare $GITHUB_TOKEN
-link_projects
+link_projects 
 run_tests
