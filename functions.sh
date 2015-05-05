@@ -1,4 +1,3 @@
-
 function clone_repos {
   sudo rm -rf $APP_DIR $REPO_DIR/*
   sudo apt-get -y install git
