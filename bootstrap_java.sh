@@ -41,9 +41,9 @@ function tomee {
 	<tomee>
 	<Resource id="jpa" type="DataSource">
 	JdbcDriver com.mysql.jdbc.Driver
-	JdbcUrl jdbc:mysql://localhost:3306/hospital?useUnicode=yes&amp;characterEncoding=UTF-8
+	JdbcUrl jdbc:mysql://192.168.50.4:3306/hospital?useUnicode=yes&amp;characterEncoding=UTF-8
 	UserName root
-	Password nA8Wedeg
+	Password pass
 	JtaManaged false
 	</Resource>
 	</tomee>' > /opt/tomee/conf/tomee.xml
