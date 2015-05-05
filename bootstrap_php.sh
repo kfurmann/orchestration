@@ -1,10 +1,12 @@
 #!/bin/bash
 
+GITHUB_TOKEN=$1
+export GITHUB_USER=$2 || amarcinkowski
+echo "=============== $GITHUB_USER"
 export APP_DIR=/var/www
 export REPO_DIR=/home/vagrant/repo
 export SCRIPTS_DIR=$APP_DIR/scripts
 github_projects=(hospitalpage hospitalplugin hospitaltheme punction epidemio)
-GITHUB_TOKEN=$1
 
 source /vagrant/functions.sh
 
@@ -36,6 +38,7 @@ function link_projects {
 }
 
 # ----------------------
+echo "PROJECTS: ${github_projects[@]}"
 clone_repos ${github_projects[@]}
 source $APP_DIR/resources/.env.bash
 sudo apt-get update
